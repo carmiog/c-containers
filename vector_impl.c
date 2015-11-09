@@ -74,3 +74,26 @@ TYPED_NAME(vector) * TYPED_NAME(shrink_to_fit) (TYPED_NAME(vector) * vect) {
     vect->values = tmp;
     return vect;
 }
+
+TYPED_NAME(lifo) * TYPED_NAME(new_lifo) () {
+    TYPED_NAME(lifo) * lifo = TYPED_NAME(new_vector)(100);
+    return lifo;
+}
+
+void TYPED_NAME(delete_lifo) (TYPED_NAME(lifo) * lifo) {
+    TYPED_NAME(delete_vector)(lifo);
+}
+
+void TYPED_NAME(lifo_put) (TYPED_NAME(lifo) * lifo, TYPE value) {
+    TYPED_NAME(append)(lifo, value);
+}
+
+TYPE TYPED_NAME(lifo_pull) (TYPED_NAME(lifo) * lifo) {
+    TYPE value = TYPED_NAME(lifo_top)(lifo);
+    TYPED_NAME(delete)(lifo, lifo->size - 1);
+    return value;
+}
+
+TYPE TYPED_NAME(lifo_top) (TYPED_NAME(lifo) * lifo) {
+    return TYPED_NAME(get)(lifo, lifo->size - 1);
+}
