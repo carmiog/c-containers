@@ -17,7 +17,7 @@ void TYPED_NAME(delete_vector) (TYPED_NAME(vector) * vect) {
     free(vect);
 }
 
-TYPE TYPED_NAME(get) (TYPED_NAME(vector) * vect, size_t index) {
+TYPE TYPED_NAME(get) (const TYPED_NAME(vector) * const vect, size_t index) {
     if(index > vect->size - 1)
         vector_out_of_range(index);
     return vect->values[index];
@@ -39,11 +39,11 @@ void TYPED_NAME(decrease_capacity) (TYPED_NAME(vector) * vect) {
     vect->capacity = new_capacity;
 }
 
-TYPED_NAME(vector) * TYPED_NAME(append) (TYPED_NAME(vector) * vect, TYPE value) {
-    return TYPED_NAME(insert) (vect, vect->size, value);
+void TYPED_NAME(append) (TYPED_NAME(vector) * vect, TYPE value) {
+    TYPED_NAME(insert) (vect, vect->size, value);
 }
 
-TYPED_NAME(vector) * TYPED_NAME(insert) (TYPED_NAME(vector) * vect, size_t index, TYPE value) {
+void TYPED_NAME(insert) (TYPED_NAME(vector) * vect, size_t index, TYPE value) {
     if (index > vect->size)
         vector_out_of_range(index);
     if (vect->size == vect->capacity)
@@ -52,27 +52,26 @@ TYPED_NAME(vector) * TYPED_NAME(insert) (TYPED_NAME(vector) * vect, size_t index
         vect->values[i] = vect->values[i - 1];
     vect->values[index] = value;
     vect->size += 1;
-    return vect;
 }
 
-TYPED_NAME(vector) * TYPED_NAME(delete) (TYPED_NAME(vector) * vect, size_t index) {
+TYPE TYPED_NAME(delete) (TYPED_NAME(vector) * vect, size_t index) {
     if (index >= vect->size)
         vector_out_of_range(index);
+    TYPE value = vect->values[index];
     for (size_t i = index; i < vect->size - 1; ++i)
         vect->values[i] = vect->values[i + 1];
     vect->size -= 1;
     if (vect->size/(double)vect->capacity < vect->dealloc_ratio)
         TYPED_NAME(decrease_capacity) (vect);
-    return vect;
+    return value;
 }
 
-TYPED_NAME(vector) * TYPED_NAME(shrink_to_fit) (TYPED_NAME(vector) * vect) {
+void TYPED_NAME(shrink_to_fit) (TYPED_NAME(vector) * vect) {
     TYPE * tmp = ( TYPE *) realloc(vect->values, sizeof( TYPE )*vect->size);
     if(tmp == NULL)
         vector_memory_allocation_fail();
     vect->capacity = vect->size;
     vect->values = tmp;
-    return vect;
 }
 
 TYPED_NAME(lifo) * TYPED_NAME(new_lifo) () {
