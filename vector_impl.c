@@ -1,8 +1,8 @@
 TYPED_NAME(vector) * TYPED_NAME(new_vector) (size_t capacity) {
-    TYPED_NAME(vector) * vect = ( TYPED_NAME(vector) *) malloc(sizeof(TYPED_NAME(vector) ));
+    TYPED_NAME(vector) * vect = malloc(sizeof(TYPED_NAME(vector) ));
     if (vect == NULL)
         vector_memory_allocation_fail();
-    vect->values = ( TYPE *) malloc(sizeof( TYPE )*capacity);
+    vect->values = malloc(sizeof( TYPE )*capacity);
     if(vect->values == NULL)
         vector_memory_allocation_fail();
     vect->size = 0;
