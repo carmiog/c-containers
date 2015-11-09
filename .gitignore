@@ -1,3 +1,4 @@
 .*
 *.o
 *_unittest.c
+*.a
