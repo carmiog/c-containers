@@ -17,7 +17,7 @@ void TYPED_NAME(delete_vector) (TYPED_NAME(vector) * vect) {
     free(vect);
 }
 
-TYPE TYPED_NAME(get) (const TYPED_NAME(vector) * const vect, size_t index) {
+TYPE TYPED_NAME(get) (const TYPED_NAME(vector) * vect, size_t index) {
     if(index > vect->size - 1)
         vector_out_of_range(index);
     return vect->values[index];
@@ -74,6 +74,7 @@ void TYPED_NAME(shrink_to_fit) (TYPED_NAME(vector) * vect) {
     vect->values = tmp;
 }
 
+/* LIFO*/
 TYPED_NAME(lifo) * TYPED_NAME(new_lifo) () {
     TYPED_NAME(lifo) * lifo = TYPED_NAME(new_vector)(100);
     return lifo;
@@ -93,6 +94,6 @@ TYPE TYPED_NAME(lifo_pull) (TYPED_NAME(lifo) * lifo) {
     return value;
 }
 
-TYPE TYPED_NAME(lifo_top) (TYPED_NAME(lifo) * lifo) {
+TYPE TYPED_NAME(lifo_top) (const TYPED_NAME(lifo) * lifo) {
     return TYPED_NAME(get)(lifo, lifo->size - 1);
 }
